@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO LIST</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="items">
+        <h1>Todays</h1>
+        <div class="list">
+            <% if(locals.items.length!=0){ %>
+                <% for(let item of items){ %>
+                    <div class="elt">
+                        <form action="/delete" method="post" class="deleteBox">
+                            <input type="checkbox" name="id" value="<%= item.id%>" onchange=this.form.submit()>
+                        </form>
+                        <p class="title" id="title<%=item.id%>" > <%= item.title%></p>
+                        <form action="/submit" method="post" class="submitBox">
+                            <input class="ip" type="hidden" name="updatedId" value="<%= item.id%>">
+                            <input class="ip" id="input<%=item.id%>" type="text" hidden="true" name="updatedTitle" value="<%= item.title%>" autofocus autocomplete="off" >
+                            <button type="submit" class="done" hidden id="done<%=item.id%>">Save</button>
+                        </form>
+                            <button id="edit<%= item.id%>" class="editButton" onclick="handler('<%= item.id%>')">Edit</button>
+                    </div>
+                <% } %>
+            <% }else{ %>
+            
+                <p>No Tasks added Yet!</p>
+            <% } %>
+            <form action="/create" method="post">
+                <input class="ip" type="text" name="newItem" placeholder="Create New Task" >
+                <button type="submit" class="editButton">Create</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    // document.getElementById("input").addEventListener("click",function(){
+    //     this.setAttribute("type","hidden");
+    // });
+    // function handler(id){
+    //     console.log(id);
+    //     document.getElementById("press"+id).removeAttribute("hidden");
+    //     document.getElementById("title"+id).setAttribute("hidden","true");
+    //     document.getElementById("show"+id).setAttribute("type","text");
+    //     document.getElementById("edit"+id).setAttribute("type","hidden");
+    //     document.getElementById("hide"+id).setAttribute("hidden","true");
+    // }
+    // function handler2(id){
+    //     document.getElementById("press"+id).setAttribute("hidden",true);
+    //     document.getElementById("title"+id).removeAttribute("hidden");
+    //     document.getElementById("show"+id).setAttribute("hidden",true);
+    //     // document.getElementById("show"+id).setAttribute("hidden",false);
+    //     document.getElementById("edit"+id).setAttribute("type","checkbox");
+    //     document.getElementById("hide"+id).removeAttribute("hidden",true);  
+    // }
+
+    function handler(id){
+        console.log(id);
+        document.getElementById("title"+id).setAttribute("hidden",true);
+        document.getElementById("edit"+id).setAttribute("hidden",true);
+        document.getElementById("input"+id).removeAttribute("hidden");
+        document.getElementById("done"+id).removeAttribute("hidden");
+    }
+</script>
